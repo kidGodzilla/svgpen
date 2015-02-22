@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVGPen</title>
+    <style type="text/css">
+        * {
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+        }
+        
+        .top {
+          background: #1D2127;
+          color: #ccc;
+          font-family:Lucida Sans, 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+        }
+        .btn {
+          padding: 12px 20px;
+          display: inline-block;
+          cursor: pointer;
+        }
+        .btn:hover {
+          background: #282D36;
+          color: #dedede;
+        }
+        .p-right {
+          float: right;
+        }
+        .btn.selected {
+          background: #373F4A;
+          color: #0cf;
+        }
+        .xml {
+          background: #839496;
+          display: none;
+        }
+        .svg {
+          background: #839496;
+          width: 100%;
+          text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css" />
+</head>
+<body>
+<div class="embed">
+  <div class="top">
+    <div class="btn IMG selected">
+      Image
+    </div>
+    <div class="btn SVG">
+      Code
+    </div>
+    <div class="btn p-right" id="link">
+      Edit on SVGPen
+    </div>
+  </div>
+  <div class="svg">
+    <img id="svgImage"/>
+  </div>
+  <div class="xml">
+    <pre><code></code></pre>
+  </div>
+</div>
+
+<div id="placeholderArea" style="display:none"></div>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/languages/xml.min.js"></script>
+
+<script type="text/javascript">
+    var _id;
+    $(document).ready(function() {
+        _id = window.location.hash.slice(1);
+        $('#svgImage').attr('src', 'http://svgpen.com/v/'+_id+'.svg');
+        
+        $('#placeholderArea').load('http://svgpen.com/v/'+_id+'.svg', function () {
+            $('pre code').text($('#placeholderArea').html());
+            
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+    });
+    
+    $('.SVG').click(function (){
+      $('.btn.IMG').removeClass('selected');
+      $('.svg').hide();
+      $('.btn.SVG').addClass('selected');
+      $('.xml').show();
+    });
+    $('.IMG').click(function (){
+      $('.btn.SVG').removeClass('selected');
+      $('.xml').hide();
+      $('.btn.IMG').addClass('selected');
+      $('.svg').show();
+    });
+    $('#link').click(function () {
+      window.location.href = "http://svgpen.com/#"+_id;
+    });
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59222518-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
